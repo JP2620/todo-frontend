@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
+import LogInForm from './components/LogInForm';
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello react</h1>
+      <LogInForm></LogInForm>
     </div>
   );
 }
