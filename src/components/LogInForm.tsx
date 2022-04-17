@@ -1,5 +1,8 @@
 import axios from "axios";
 import React, { Component } from "react";
+import {
+Navigate
+} from 'react-router-dom'
 
 type LogInProps = {
   auth_user: string
@@ -17,6 +20,9 @@ export default class LogInForm extends Component<LogInProps> {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    console.log(this.props.auth_user)
+    console.log(this.props.auth_user.length);
+    console.log(this.props.auth_user !== "");
   }
 
   handleChange(event: React.ChangeEvent<HTMLFormElement | HTMLInputElement>) {
@@ -40,6 +46,7 @@ export default class LogInForm extends Component<LogInProps> {
     }).then((data) => {
       this.props.handler({ username: username});
       console.log(this.props.auth_user);
+      <Navigate to="/asd" replace={true}/>
     })
       .catch((error: Error) => {
       console.log(error);
@@ -50,6 +57,8 @@ export default class LogInForm extends Component<LogInProps> {
 
   render() {
     const { username, password }: any = this.state;
+    if (this.props.auth_user !== "")
+      return <Navigate to="/home" replace={true}/>
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
