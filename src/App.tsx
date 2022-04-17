@@ -4,15 +4,18 @@ import LogInForm from './components/LogInForm';
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
+  useNavigate
 } from 'react-router-dom'
 import Folders from './components/Folders';
 
 function App() {
+  const [username, setUsername] = React.useState({username: ""})
+ 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LogInForm/>}></Route>
+        <Route path="/" element={<LogInForm auth_user={username.username} handler={setUsername} />}></Route>
         <Route path="/home" element={<Folders/>}></Route>
       </Routes>
     </BrowserRouter>
