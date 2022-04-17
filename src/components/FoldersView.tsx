@@ -41,7 +41,7 @@ export default class FoldersView extends Component<folderViewProps> {
                                             <p>
                                                 {folder.name}
                                             </p>
-                                            <Link to="#">
+                                            <Link to={"/folders/" + folder.name} >
                                                 View items
                                             </Link>
                                             <button>

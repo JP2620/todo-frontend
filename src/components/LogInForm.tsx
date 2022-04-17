@@ -46,19 +46,16 @@ export default class LogInForm extends Component<LogInProps> {
     }).then((data) => {
       this.props.handler({ username: username});
       console.log(this.props.auth_user);
-      <Navigate to="/home" replace={true}/>
     })
       .catch((error: Error) => {
       console.log(error);
     })
-
-
   }
 
   render() {
     const { username, password }: any = this.state;
     if (this.props.auth_user !== "")
-      return <Navigate to="/home" replace={true}/>
+      return <Navigate to="/folders" replace={true}/>
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
