@@ -23,7 +23,6 @@ export default class LogInForm extends Component {
 
     async handleSubmit(event: any) {
         const { username, password }: any = this.state;
-        console.log(this.state);
         event.preventDefault();
         const data = await axios.post("http://localhost:5001/api/auth/login", {
             username,
@@ -32,11 +31,10 @@ export default class LogInForm extends Component {
         {
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json,text/*;q=0.99"
-            }
+                Accept: "application/json,text/*;q=0.99",
+            },
+            withCredentials: true
         })
- 
-        console.log(data);
     }
     
     render() {
