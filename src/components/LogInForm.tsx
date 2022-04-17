@@ -5,7 +5,7 @@ Navigate
 } from 'react-router-dom'
 
 type LogInProps = {
-  auth_user: string
+  auth_user: string,
   handler: any,
 }
 
@@ -46,7 +46,7 @@ export default class LogInForm extends Component<LogInProps> {
     }).then((data) => {
       this.props.handler({ username: username});
       console.log(this.props.auth_user);
-      <Navigate to="/asd" replace={true}/>
+      <Navigate to="/home" replace={true}/>
     })
       .catch((error: Error) => {
       console.log(error);

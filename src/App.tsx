@@ -7,7 +7,7 @@ import {
   Route,
   useNavigate
 } from 'react-router-dom'
-import Folders from './components/Folders';
+import FoldersView from './components/FoldersView';
 
 function App() {
   const [username, setUsername] = React.useState({username: ""})
@@ -16,7 +16,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LogInForm auth_user={username.username} handler={setUsername} />}></Route>
-        <Route path="/home" element={<Folders/>}></Route>
+        <Route path="/home" element={<FoldersView username={username.username}/>}></Route>
       </Routes>
     </BrowserRouter>
   );
