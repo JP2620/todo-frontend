@@ -1,5 +1,6 @@
 import { Component, useEffect, useState } from "react";
 import { RouteProps, useParams } from "react-router-dom";
+import FoldersView from "./FoldersView";
 
 interface tasksViewProps extends RouteProps {
     username: string

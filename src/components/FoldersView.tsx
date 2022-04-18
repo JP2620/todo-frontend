@@ -1,60 +1,71 @@
-import React, { Component } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
-import axios from "axios";
+import { updateShorthandPropertyAssignment } from "typescript";
 
 type folderViewProps = {
     username: string
 }
-export default class FoldersView extends Component<folderViewProps> {
-    constructor(props: folderViewProps) {
-        super(props);
-    }
+function FoldersView(props: folderViewProps) {
+    const [folders, fetchFolders] = useState<any>([]);
+    const [newFolder, setNewFolder] = useState<string>("");
 
-    state = {
-        loading: true,
-        folders: []
+    const getFolders = () => {
+        fetch("http://localhost:5001/api/todo/folder",
+            {
+                credentials: "include"
+            })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                fetchFolders(res);
+            })
     };
 
-    async componentDidMount() {
-        const url = "http://localhost:5001/api/todo/folder";
-        const response = await fetch(url, {
-            credentials: "include"
+    useEffect(() => {
+        getFolders()
+    }, [])
+
+    const handleRemoveFolder = (folderName: string) => (event: any) => {
+        event.preventDefault();
+        fetch("http://localhost:5001/api/todo/folder",
+        {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json,text/*;q=0.99",
+            },
+            body: JSON.stringify({
+                owner: props.username,
+                name: folderName
+            })
         });
-        const data = await response.json();
-        this.setState({ loading: false, folders: data })
-        console.log(data);
+        fetchFolders(folders.filter((item: any) => item.name !== folderName));
+    };
 
-    }
-
-    render() {
-        return (
+    return (
+        <div>
             <div>
-                <h1>{this.props.username}'s Folders</h1>
-                <div>
-                    {
-                        this.state.loading ?
-                            <div>loading...</div> :
-                            <ul>
-                                {
-                                    this.state.folders.map((folder: any) => 
-                                        <li>
-                                            <p>
-                                                {folder.name}
-                                            </p>
-                                            <Link to={"/folders/" + folder.name} >
-                                                View items
-                                            </Link>
-                                            <button>
-                                                remove
-                                            </button>
-                                            
-                                        </li>
-                                    )
-                                }
-                            </ul>
-                    }
-                </div>
+                <h1>{props.username + "'s Folders"}</h1>
             </div>
-        )
-    }
+            <div>
+                {
+                    folders.map((folder: any) =>
+                        <li>
+                            <form method="delete" onSubmit={handleRemoveFolder(folder.name)}>
+                                <p>{folder.name}</p>
+                                <Link to={"/folders/" + folder.name} >
+                                    View items
+                                </Link>
+                                <button type="submit">Remove</button>
+                            </form>
+
+                        </li>
+                    )
+                }
+            </div>
+        </div>
+    )
 }
+
+export default FoldersView;
