@@ -64,6 +64,36 @@ function FoldersView(props: folderViewProps) {
                     )
                 }
             </div>
+            <form method="post" onSubmit={(event:any) => {
+                event.preventDefault();
+                const data = {
+                    owner: props.username,
+                    name: newFolder
+                };
+                fetchFolders([...folders, {name: newFolder}]);
+                fetch("http://localhost:5001/api/todo/folder",
+                {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json,text/*;q=0.99",
+                    },
+                    body: JSON.stringify({
+                        owner: props.username,
+                        name: newFolder
+                    })
+                });
+                console.log(folders);
+            }}>
+                <input type="text" 
+                    name="newTask" 
+                    placeholder="New Task"
+                    required 
+                    onChange={e => setNewFolder(e.target.value)}
+                    />
+                <button type="submit">Add</button>
+            </form>
         </div>
     )
 }
