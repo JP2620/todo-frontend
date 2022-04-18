@@ -34,22 +34,22 @@ export default class LogInForm extends Component<LogInProps> {
   async handleSubmit(event: any) {
     const { username, password }: any = this.state;
     event.preventDefault();
-    axios.post("http://localhost:5001/api/auth/login", {
-      username,
-      password
-    }, {
+    fetch("http://localhost:5001/api/auth/login", {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({username, password}),
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json,text/*;q=0.99",
-      },
-      withCredentials: true
-    }).then((data) => {
-      this.props.handler({ username: username });
+        Accept: "*/*",
+      }
+    })
+    .then((data) => {
+      this.props.handler({username: username});
       console.log(this.props.auth_user);
     })
-      .catch((error: Error) => {
-        console.log(error);
-      })
+    .catch((error: Error) => {
+      console.log(error);
+    })
   }
 
   render() {
@@ -57,44 +57,40 @@ export default class LogInForm extends Component<LogInProps> {
     if (this.props.auth_user !== "")
       return <Navigate to="/folders" replace={true} />
     return (
-      <div className="container" style={{height: "100%"}}>
-        <div className="d-flex justify-content-center align-items-center py-auto" style={{height: "100%"}}>
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="usernameInput" className="form-label row pt-2 ">
-                Username
-              </label>
-              <input
-                className="row"
-                id="usernameInput"
-                type="username"
-                name="username"
-                placeholder="username"
-                value={username}
-                onChange={this.handleChange}
-                required
-              />
-            </div>
+      <div className="login-container">
+        <form className="login-form" onSubmit={this.handleSubmit}>
+          <div className="form-field">
+            <label htmlFor="usernameInput">
+              Username
+            </label>
+            <input
+              id="usernameInput"
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={username}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="passwordInput" className="form-label row pt-2">
-                Password
-              </label>
-              <input
-                className="row"
-                id="passwordInput"
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={password}
-                onChange={this.handleChange}
-                required
-              />
-            </div>
-
-            <button type="submit" className="btn btn-primary row mt-2 px-auto">Login</button>
-          </form>
-        </div>
+          <div className="form-field">
+            <label htmlFor="passwordInput">
+              Password
+            </label>
+            <input
+              id="passwordInput"
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={password}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+          <p className="login-signup">Don't have an account? <a href="#">Sign up</a></p>
+          <button type="submit">Login</button>
+        </form>
       </div>
     );
   }

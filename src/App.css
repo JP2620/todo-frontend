@@ -1,12 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
+:root {
+  --accent-color: #F19F3C;
+  --main-bg-color: whitesmoke;
+}
+
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
   }
 
-html, #root, body, #app, #app>div {
-    height: 100%
-  }
+html {
+    height: 100vh;
+    width: 100%;
+}
+
+body {
+    background-color: var(--main-bg-color);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.19), -10px -10px 15px rgba(0,0,0,0.19);
+    border-radius: 5%;
+    background-color: white;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    margin:  20% auto;
+    padding: 50px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 5px;
+}
+
+.form-field>label {
+    padding-bottom: 0.5em;
+}
+.form-field>input[type=text] {
+    height: 1.5rem;
+    padding-left: 0.35rem;
+}
+.form-field>input[type=password] {
+  height: 1.5rem;
+  padding-left: 0.35rem;
+}
+
+form>button[type=submit] {
+    margin: 0.7rem 30% 0;
+    height: 1.5rem;
+    border-radius: 6px;
+}
+
+form>button[type=submit]:hover {
+    background-color: var(--accent-color);
+    color: var(--main-bg-color);
+}
+
+.login-signup {
+    font-size: small;
+}
+.login-signup>a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
