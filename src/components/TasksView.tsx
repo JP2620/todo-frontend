@@ -39,6 +39,7 @@ function TasksView(props: tasksViewProps) {
                         <li>
                             <p>{task.name}</p>
                             <button>Edit</button>
+                            <input type="checkbox" name={task.name} defaultChecked={task.state === "Completed"} />
                         </li>
                     )
                 }
