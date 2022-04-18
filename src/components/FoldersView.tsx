@@ -1,6 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { Link } from 'react-router-dom'
-import { updateShorthandPropertyAssignment } from "typescript";
 
 type folderViewProps = {
     username: string
