@@ -30,10 +30,14 @@ function TaskItem(props: TaskItemProps) {
                 "Content-Type": "application/json",
                 Accept: "application/json,text/*;q=0.99",
             }
-
         })
         console.log(data);
     }, [checked]);
+
+    const editTaskModalProps = {
+        openModal: setModalOpen,
+        ...props
+    }
 
     return (
         <li className="task-item">
@@ -42,7 +46,7 @@ function TaskItem(props: TaskItemProps) {
             </div>
             <p className="task-name">{props.taskName}</p>
             <p className="task-edit" onClick={() => setModalOpen(true)} >Edit</p>
-            {modalOpen && <EditTaskModal taskName={props.taskName} openModal={setModalOpen}/>}
+            {modalOpen && <EditTaskModal {...editTaskModalProps}  />}
         </li>
     )
 
