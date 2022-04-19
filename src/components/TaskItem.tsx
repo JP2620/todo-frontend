@@ -9,19 +9,26 @@ type TaskItemProps = {
 }
 
 function TaskItem(props: TaskItemProps) {
-    const [name, setName] = useState(props.taskName);
-    const [checked, setChecked] = React.useState(props.completed === "Completed");
     const [modalOpen, setModalOpen] = React.useState(false);
+    const [state, setState] = useState({
+        owner: props.username,
+        folder: props.folder,
+        name: props.taskName,
+        checked: props.completed === "Completed",
+    })
     const handleClick = (event: any) => {
-        setChecked(!checked);
+        setState({
+            ...state,
+            checked: !state.checked
+        });
     }
 
     useEffect(() => {
         const data = {
-            owner: props.username,
+            owner: state.owner,
             folder: props.folder,
-            old_description: name,
-            state: checked? "Completed" : "Uncompleted"
+            old_description: state.name,
+            state: state.checked ? "Completed" : "Uncompleted"
         };
         fetch("http://localhost:5001/api/todo/task", {
             method: "PATCH",
@@ -33,23 +40,22 @@ function TaskItem(props: TaskItemProps) {
             }
         })
         console.log(data);
-    }, [checked]);
+    }, [state.name, state.checked]);
 
     const editTaskModalProps = {
         openModal: setModalOpen,
-        setTaskName: setName,
-        ...props,
-        taskName: name,
+        setState: setState,
+        ...state,
     }
 
     return (
         <li className="task-item">
             <div className="checkbox-div">
-                <input className="task-checkbox" type="checkbox" defaultChecked={checked} onClick={handleClick} />
+                <input className="task-checkbox" type="checkbox" defaultChecked={state.checked} onClick={handleClick} />
             </div>
-            <p className="task-name">{name}</p>
+            <p className="task-name">{state.name}</p>
             <p className="task-edit" onClick={() => setModalOpen(true)} >Edit</p>
-            {modalOpen && <EditTaskModal {...editTaskModalProps}  />}
+            {modalOpen && <EditTaskModal {...editTaskModalProps} />}
         </li>
     )
 

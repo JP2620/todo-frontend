@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 type EditTaskModalProps = {
-    openModal: (state: boolean) => void;
-    taskName: string;
-    completed: string;
-    username: string;
+    owner: string;
     folder: string | undefined;
-    setTaskName: any;
+    name: string;
+    checked: boolean;
+    setState: any;
+    openModal: (state: boolean) => void;
 }
 
 function EditTaskModal(props: EditTaskModalProps) {
@@ -14,17 +14,17 @@ function EditTaskModal(props: EditTaskModalProps) {
     return (
         <div className="modal-background">
             <div className="modal-content">
-                <h2 className="modal-header">Editing task "{props.taskName}"</h2>
+                <h2 className="modal-header">Editing task "{props.name}"</h2>
                 
                 <form className="task-edit-form" 
                 onSubmit={(event:any) => {
                     props.openModal(false);
                     const data = {
-                        owner: props.username,
+                        owner: props.owner,
                         folder: props.folder,
-                        old_description: props.taskName,
+                        old_description: props.name,
                         new_description: newDescription,
-                        state: props.completed
+                        state: props.checked? "Completed" : "Uncompleted"
                     };
                     fetch("http://localhost:5001/api/todo/task", {
                         method: "PATCH",
@@ -37,7 +37,12 @@ function EditTaskModal(props: EditTaskModalProps) {
                     })
                     .then(
                         () => {
-                            props.setTaskName(newDescription);
+                            props.setState({
+                                owner: props.owner,
+                                folder: props.folder,
+                                name: newDescription,
+                                checked: props.checked
+                            });
                         }
                     )
                     }}>
