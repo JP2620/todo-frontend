@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import EditTaskModal from "./EditTaskModal";
 
 type TaskItemProps = {
     taskName: string;
@@ -9,6 +10,7 @@ type TaskItemProps = {
 
 function TaskItem(props: TaskItemProps) {
     const [checked, setChecked] = React.useState(props.completed === "Completed");
+    const [modalOpen, setModalOpen] = React.useState(false);
     const handleClick = (event: any) => {
         setChecked(!checked);
     }
@@ -32,14 +34,15 @@ function TaskItem(props: TaskItemProps) {
         })
         console.log(data);
     }, [checked]);
-    
+
     return (
         <li className="task-item">
             <div className="checkbox-div">
                 <input className="task-checkbox" type="checkbox" defaultChecked={checked} onClick={handleClick} />
             </div>
             <p className="task-name">{props.taskName}</p>
-            <p className="task-edit">Edit</p>
+            <p className="task-edit" onClick={() => setModalOpen(true)} >Edit</p>
+            {modalOpen && <EditTaskModal openModal={setModalOpen}/>}
         </li>
     )
 
