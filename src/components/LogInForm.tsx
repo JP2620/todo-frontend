@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import {
+  Link,
   Navigate
 } from 'react-router-dom'
 
@@ -88,7 +89,7 @@ export default class LogInForm extends Component<LogInProps> {
               required
             />
           </div>
-          <p className="login-signup">Don't have an account? <a href="#">Sign up</a></p>
+          <p className="login-signup">Don't have an account? <Link to="/sign-up">Sign up</Link></p>
           <button type="submit">Login</button>
         </form>
       </div>
