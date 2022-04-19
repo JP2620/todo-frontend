@@ -88,7 +88,8 @@ body {
 .folders-container {
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 35%;
+    min-width: 500px;
     margin: 5% auto;
     justify-content: center;
     padding: 30px 30px 50px 30px;
@@ -176,6 +177,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 40%;
+    min-width: 300px;
     margin: 5% auto;
     justify-content: center;
     padding: 30px 30px 50px 30px;
@@ -264,6 +266,7 @@ input[type=checkbox] {
     cursor: pointer;
 }
 
+
 .modal-background {
     position: fixed;
     top: 0;
@@ -274,4 +277,56 @@ input[type=checkbox] {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    min-width: 300px;
+    margin: 5% auto;
+    justify-content: center;
+    padding: 30px 30px 50px 30px;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.19), -10px -10px 15px rgba(0,0,0,0.19);
+
+}
+
+.modal-header {
+    padding: 0 0 0.8rem 0;
+    text-align: center;
+}
+
+.task-edit-input {
+    height: 1.3rem;
+    padding-left: 0.35rem;
+}
+
+.task-edit-form {
+    display:flex;
+    flex-direction: column;
+    width: max(200px, 30%);
+    margin: 0 auto;
+}
+
+.task-edit-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-top: 10px;
+}
+
+.task-edit-buttons>button {
+    padding: 0.35rem;
+    border-radius: 6px;
+}
+
+.task-edit-buttons>button:hover {
+    cursor: pointer;
+}
+
+.task-edit-buttons>button[type=submit] {
+    background-color: var(--accent-color);
+    color: white;
 }

@@ -42,7 +42,7 @@ function TaskItem(props: TaskItemProps) {
             </div>
             <p className="task-name">{props.taskName}</p>
             <p className="task-edit" onClick={() => setModalOpen(true)} >Edit</p>
-            {modalOpen && <EditTaskModal openModal={setModalOpen}/>}
+            {modalOpen && <EditTaskModal taskName={props.taskName} openModal={setModalOpen}/>}
         </li>
     )
 
