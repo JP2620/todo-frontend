@@ -1,6 +1,7 @@
 import { Component, useEffect, useState } from "react";
 import { Navigate, RouteProps, useParams } from "react-router-dom";
 import FoldersView from "./FoldersView";
+import TaskItem from "./TaskItem";
 
 interface tasksViewProps extends RouteProps {
     username: string
@@ -35,16 +36,10 @@ function TasksView(props: tasksViewProps) {
             <h1 className="tasks-header" style={{fontSize: "24px"}} >{"Folders > " + params.folder}</h1>
             <main className="tasks-main">
                 <ul className="task-list">
+                    
                     {
-                        tasks.map((task: any) =>
-                            <li className="task-item">
-                                <div className="checkbox-div">
-                                    <input className="task-checkbox" type="checkbox" name={task.name} defaultChecked={task.state === "Completed"} />
-                                </div>
-                                <p className="task-name">{task.name}</p>
-                                <p className="task-edit">Edit</p>
-                            </li>
-                        )
+                        tasks.map((task: any) => 
+                            <TaskItem username={props.username} folder={params.folder} taskName={task.name} completed={task.state} />)
                     }
                 </ul>
                 <form className="task-form" method="post" onSubmit={(event: any) => {
