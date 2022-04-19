@@ -1,10 +1,11 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
 type folderViewProps = {
     username: string
 }
 function FoldersView(props: folderViewProps) {
+
     const [folders, fetchFolders] = useState<any>([]);
     const [newFolder, setNewFolder] = useState<string>("");
 
@@ -23,6 +24,8 @@ function FoldersView(props: folderViewProps) {
     useEffect(() => {
         getFolders()
     }, [])
+    if (props.username === "")
+        return <Navigate to="/" replace/>
 
     const handleRemoveFolder = (folderName: string) => (event: any) => {
         event.preventDefault();

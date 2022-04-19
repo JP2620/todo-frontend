@@ -1,5 +1,5 @@
 import { Component, useEffect, useState } from "react";
-import { RouteProps, useParams } from "react-router-dom";
+import { Navigate, RouteProps, useParams } from "react-router-dom";
 import FoldersView from "./FoldersView";
 
 interface tasksViewProps extends RouteProps {
@@ -7,6 +7,7 @@ interface tasksViewProps extends RouteProps {
 };
 
 function TasksView(props: tasksViewProps) {
+
     const [tasks, fetchTasks] = useState<any>([]);
     const [newTask, setNewTask] = useState("");
 
@@ -25,9 +26,8 @@ function TasksView(props: tasksViewProps) {
     useEffect(() => {
         getTasks()
     }, []);
-
-
-
+    if (props.username === "")
+        return <Navigate to="/" replace/>
 
 
     return (

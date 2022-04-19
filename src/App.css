@@ -211,6 +211,7 @@ body {
 
 .task-edit {
     color: #CAE4F1;
+    padding-left: 10px;
 }
 
 .task-name {
