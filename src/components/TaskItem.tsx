@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import EditTaskModal from "./EditTaskModal";
 
 type TaskItemProps = {
@@ -9,6 +9,7 @@ type TaskItemProps = {
 }
 
 function TaskItem(props: TaskItemProps) {
+    const [name, setName] = useState(props.taskName);
     const [checked, setChecked] = React.useState(props.completed === "Completed");
     const [modalOpen, setModalOpen] = React.useState(false);
     const handleClick = (event: any) => {
@@ -36,6 +37,7 @@ function TaskItem(props: TaskItemProps) {
 
     const editTaskModalProps = {
         openModal: setModalOpen,
+        setTaskName: setName,
         ...props
     }
 
@@ -44,7 +46,7 @@ function TaskItem(props: TaskItemProps) {
             <div className="checkbox-div">
                 <input className="task-checkbox" type="checkbox" defaultChecked={checked} onClick={handleClick} />
             </div>
-            <p className="task-name">{props.taskName}</p>
+            <p className="task-name">{name}</p>
             <p className="task-edit" onClick={() => setModalOpen(true)} >Edit</p>
             {modalOpen && <EditTaskModal {...editTaskModalProps}  />}
         </li>

@@ -6,6 +6,7 @@ type EditTaskModalProps = {
     completed: string;
     username: string;
     folder: string | undefined;
+    setTaskName: any;
 }
 
 function EditTaskModal(props: EditTaskModalProps) {
@@ -14,6 +15,7 @@ function EditTaskModal(props: EditTaskModalProps) {
         <div className="modal-background">
             <div className="modal-content">
                 <h2 className="modal-header">Editing task "{props.taskName}"</h2>
+                
                 <form className="task-edit-form" 
                 onSubmit={(event:any) => {
                     props.openModal(false);
@@ -32,8 +34,14 @@ function EditTaskModal(props: EditTaskModalProps) {
                             "Content-Type": "application/json",
                             Accept: "application/json,text/*;q=0.99",
                         }
-                    });
+                    })
+                    .then(
+                        () => {
+                            props.setTaskName(newDescription);
+                        }
+                    )
                     }}>
+
                     <div className="form-field">
                     <input className=".task-edit-input" type="text" name="newTask" placeholder="New Task"
                     onChange={(e) => setNewDescription(e.target.value)} />
