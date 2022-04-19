@@ -28,28 +28,28 @@ function TasksView(props: tasksViewProps) {
         getTasks()
     }, []);
     if (props.username === "")
-        return <Navigate to="/" replace/>
+        return <Navigate to="/" replace />
 
 
     return (
         <div className="tasks-container">
-            <h1 className="tasks-header" style={{fontSize: "24px"}} >{"Folders > " + params.folder}</h1>
+            <h1 className="tasks-header" style={{ fontSize: "24px" }} >{"Folders > " + params.folder}</h1>
             <main className="tasks-main">
                 <ul className="task-list">
-                    
+
                     {
-                        tasks.map((task: any) => 
+                        tasks.map((task: any) =>
                             <TaskItem username={props.username} folder={params.folder} taskName={task.name} completed={task.state} />)
                     }
                 </ul>
-                <form className="task-form" method="post" onSubmit={(event: any) => {
+                <form className="task-form" onSubmit={(event: any) => {
+                    event.preventDefault();
                     const data = {
                         folder: params.folder,
                         owner: props.username,
                         description: newTask
                     };
-                    fetchTasks([...tasks, { name: newTask }]);
-                    event.preventDefault();
+                    
                     fetch("http://localhost:5001/api/todo/task", {
                         method: "POST",
                         credentials: "include",
@@ -58,9 +58,10 @@ function TasksView(props: tasksViewProps) {
                             "Content-Type": "application/json",
                             Accept: "application/json,text/*;q=0.99",
                         }
-                    });
-                    console.log(tasks);
-                }}>
+                    })
+                        .then(() => fetchTasks([...tasks, { name: newTask }]))
+
+                    }}>
                     <input type="text"
                         name="newTask"
                         placeholder="New Task"

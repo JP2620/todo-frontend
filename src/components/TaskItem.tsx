@@ -20,7 +20,7 @@ function TaskItem(props: TaskItemProps) {
         const data = {
             owner: props.username,
             folder: props.folder,
-            old_description: props.taskName,
+            old_description: name,
             state: checked? "Completed" : "Uncompleted"
         };
         fetch("http://localhost:5001/api/todo/task", {
@@ -38,7 +38,8 @@ function TaskItem(props: TaskItemProps) {
     const editTaskModalProps = {
         openModal: setModalOpen,
         setTaskName: setName,
-        ...props
+        ...props,
+        taskName: name,
     }
 
     return (
