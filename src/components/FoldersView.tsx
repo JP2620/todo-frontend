@@ -45,6 +45,33 @@ function FoldersView(props: folderViewProps) {
         fetchFolders(folders.filter((item: any) => item.name !== folderName));
     };
 
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+        const data = {
+            owner: props.username,
+            name: newFolder
+        };
+        fetchFolders([...folders, { name: newFolder }]);
+        fetch("http://localhost:5001/api/todo/folder",
+            {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json,text/*;q=0.99",
+                },
+                body: JSON.stringify({
+                    owner: props.username,
+                    name: newFolder
+                })
+            })
+            .then(() => {
+                const input: any = document.getElementById("new-folder-input");
+                input.value = "";
+            })
+        console.log(folders);
+    }
+
     return (
         <div className="folders-container">
             <h1 className="folders-header">{props.username + "'s Folders"}</h1>
@@ -63,29 +90,10 @@ function FoldersView(props: folderViewProps) {
                     }
                 </ul>
 
-                <form className="folder-form" method="post" onSubmit={(event: any) => {
-                    event.preventDefault();
-                    const data = {
-                        owner: props.username,
-                        name: newFolder
-                    };
-                    fetchFolders([...folders, { name: newFolder }]);
-                    fetch("http://localhost:5001/api/todo/folder",
-                        {
-                            method: "POST",
-                            credentials: "include",
-                            headers: {
-                                "Content-Type": "application/json",
-                                Accept: "application/json,text/*;q=0.99",
-                            },
-                            body: JSON.stringify({
-                                owner: props.username,
-                                name: newFolder
-                            })
-                        });
-                    console.log(folders);
-                }}>
-                    <input type="text"
+                <form className="folder-form" method="post" onSubmit={handleSubmit}>
+                    <input 
+                        id="new-folder-input" 
+                        type="text"
                         name="newFolder"
                         placeholder="New Folder"
                         required

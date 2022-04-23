@@ -67,10 +67,16 @@ arrow_back
                             Accept: "application/json,text/*;q=0.99",
                         }
                     })
-                        .then(() => fetchTasks([...tasks, { name: newTask }]))
+                        .then(() => {
+                            fetchTasks([...tasks, { name: newTask }]);
+                            const input: any = document.getElementById("new-task-input");
+                            input.value = "";
+                        })
 
                 }}>
-                    <input type="text"
+                    <input
+                        id="new-task-input" 
+                        type="text"
                         name="newTask"
                         placeholder="New Task"
                         required
