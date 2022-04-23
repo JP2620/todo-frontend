@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { Component } from "react";
 import {
   Link,
@@ -41,7 +40,7 @@ export default class LogInForm extends Component<LogInProps> {
       body: JSON.stringify({username, password}),
       headers: {
         "Content-Type": "application/json",
-        Accept: "*/*",
+        Accept: "*/*"
       }
     })
     .then((data) => {

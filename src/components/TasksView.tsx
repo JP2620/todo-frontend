@@ -1,6 +1,5 @@
-import { Component, useEffect, useState } from "react";
-import { Navigate, RouteProps, useParams } from "react-router-dom";
-import FoldersView from "./FoldersView";
+import { useEffect, useState } from "react";
+import { Link, Navigate, RouteProps, useParams } from "react-router-dom";
 import TaskItem from "./TaskItem";
 
 interface tasksViewProps extends RouteProps {
@@ -33,7 +32,16 @@ function TasksView(props: tasksViewProps) {
 
     return (
         <div className="tasks-container">
-            <h1 className="tasks-header" style={{ fontSize: "24px" }} >{"Folders > " + params.folder}</h1>
+            <div>
+                <Link to="/folders"><a className="previous-page-link"><span className="material-symbols-outlined">
+arrow_back
+</span></a></Link>
+            </div>
+            <h1 className="tasks-header" style={{ fontSize: "24px" }} >{"Folders "} 
+                <span className="material-symbols-outlined">
+                    arrow_forward_ios
+                </span> {params.folder}
+            </h1>
             <main className="tasks-main">
                 <ul className="task-list">
 
@@ -49,7 +57,7 @@ function TasksView(props: tasksViewProps) {
                         owner: props.username,
                         description: newTask
                     };
-                    
+
                     fetch("http://localhost:5001/api/todo/task", {
                         method: "POST",
                         credentials: "include",
@@ -61,7 +69,7 @@ function TasksView(props: tasksViewProps) {
                     })
                         .then(() => fetchTasks([...tasks, { name: newTask }]))
 
-                    }}>
+                }}>
                     <input type="text"
                         name="newTask"
                         placeholder="New Task"

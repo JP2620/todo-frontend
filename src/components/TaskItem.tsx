@@ -36,7 +36,7 @@ function TaskItem(props: TaskItemProps) {
             body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json,text/*;q=0.99",
+                Accept: "application/json,text/*;q=0.99",    
             }
         })
         console.log(data);

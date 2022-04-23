@@ -330,3 +330,23 @@ input[type=checkbox] {
     background-color: var(--accent-color);
     color: white;
 }
+
+.previous-page-link {
+    position: fixed;
+    top: 50px;
+    left: 30px;
+    background-color: rgb(202, 196, 196);
+    width: 70px;
+    height: 70px;;
+    border-radius: 50%;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .previous-page-link {
+        display: none;
+    }
+}
