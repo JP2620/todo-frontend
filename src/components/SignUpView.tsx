@@ -1,26 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SignUpView() {
-    const [state, setState] = React.useState({
+    const [state, setState] = useState({
         name: "",
         surname: "",
         username: "",
         password: "",
     })
+
+    const users : string[] = ["user1", "user2", "user3"]; 
+
+    const [usernameBeingWritten, setUsernameBeingWritten] = useState(false);
+    const [lastModificationUsername, setLastModificationUsername] = useState(Date.now() / 1000);
+
     const navigate = useNavigate();
-    const URL : string = "http://localhost:5001/api/users/create";
+    const URL: string = "http://localhost:5001/api/users/create";
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({
             ...state,
             [event.target.name]: event.target.value
         })
     }
+    const handleUsernameKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        setLastModificationUsername(Date.now() / 1000)
+        setUsernameBeingWritten(true)
+        console.log(lastModificationUsername)
+    }
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLastModificationUsername((prevState) => {
+                if (Date.now() / 1000 - prevState > 0.9 && usernameBeingWritten) {
+                    setUsernameBeingWritten(false);
+                    console.log(`paró, ${state.username}`)
+                }
+                return prevState;
+            })
+        }, 1000)
+    }, [lastModificationUsername])
 
     return (
         <div className="login-container">
             <form className="login-form"
-                onSubmit={(event:any) => {
+                onSubmit={(event: any) => {
                     event.preventDefault();
                     const data = {
                         name: state.name,
@@ -37,12 +60,12 @@ function SignUpView() {
                             Accept: "*/*",
                         }
                     })
-                    .then((data) => {
-                        navigate("/");
-                    })
-                    .catch((error: Error) => {
-                        console.log(error);
-                    })
+                        .then((data) => {
+                            navigate("/");
+                        })
+                        .catch((error: Error) => {
+                            console.log(error);
+                        })
 
                 }}>
 
@@ -91,6 +114,8 @@ function SignUpView() {
                         placeholder="Username"
                         value={state.username}
                         onChange={handleInputChange}
+                        onKeyUp={handleUsernameKeyUp}
+                        style={{ backgroundColor: users.includes(state.username) ? '#f0b9c8' : 'white' }}
                         required
                     />
                 </div>
