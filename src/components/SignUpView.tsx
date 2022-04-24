@@ -1,3 +1,4 @@
+import { Http2ServerRequest } from "http2";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +13,7 @@ function SignUpView() {
     const users : string[] = ["user1", "user2", "user3"]; 
 
     const [usernameBeingWritten, setUsernameBeingWritten] = useState(false);
+    const [usernameAvailable, setUsernameAvailable] = useState(true);
     const [lastModificationUsername, setLastModificationUsername] = useState(Date.now() / 1000);
 
     const navigate = useNavigate();
@@ -33,7 +35,13 @@ function SignUpView() {
             setLastModificationUsername((prevState) => {
                 if (Date.now() / 1000 - prevState > 0.9 && usernameBeingWritten) {
                     setUsernameBeingWritten(false);
-                    console.log(`paró, ${state.username}`)
+                    fetch(`http://localhost:5001/api/users/search/${state.username}`, {
+                        method: "HEAD"
+                    })
+                    .then((response) => {
+                        setUsernameAvailable(!(response.status === 200));
+                    })
+                    .catch((err) => console.log(err))
                 }
                 return prevState;
             })
@@ -115,7 +123,7 @@ function SignUpView() {
                         value={state.username}
                         onChange={handleInputChange}
                         onKeyUp={handleUsernameKeyUp}
-                        style={{ backgroundColor: users.includes(state.username) ? '#f0b9c8' : 'white' }}
+                        style={{ backgroundColor: usernameAvailable ? 'inherit' : '#f0b9c8', borderWidth: '1px' }}
                         required
                     />
                 </div>
