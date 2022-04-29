@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, Navigate, RouteProps, useParams } from "react-router-dom";
+import { UserContext, UserContextType } from "../userContext";
 import TaskItem from "./TaskItem";
 
-interface tasksViewProps extends RouteProps {
-    username: string
-};
 
-function TasksView(props: tasksViewProps) {
+function TasksView() {
 
     const [tasks, fetchTasks] = useState<any>([]);
     const [newTask, setNewTask] = useState("");
+    const userContext: UserContextType | null = useContext(UserContext);
 
     const params = useParams();
     const getTasks = () => {
@@ -26,7 +25,7 @@ function TasksView(props: tasksViewProps) {
     useEffect(() => {
         getTasks()
     }, []);
-    if (props.username === "")
+    if (userContext?.username === "")
         return <Navigate to="/" replace />
 
 
@@ -47,14 +46,14 @@ arrow_back
 
                     {
                         tasks.map((task: any) =>
-                            <TaskItem username={props.username} folder={params.folder} taskName={task.name} completed={task.state} />)
+                            <TaskItem username={userContext!.username} folder={params.folder} taskName={task.name} completed={task.state} />)
                     }
                 </ul>
                 <form className="task-form" onSubmit={(event: any) => {
                     event.preventDefault();
                     const data = {
                         folder: params.folder,
-                        owner: props.username,
+                        owner: userContext?.username,
                         description: newTask
                     };
 

@@ -20,8 +20,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LogInForm/>}></Route>
-          <Route path="/folders" element={<FoldersView username={username} />}></Route>
-          <Route path="/folders/:folder" element={<TasksView username={username} />}></Route>
+          <Route path="/folders" element={<FoldersView/>}></Route>
+          <Route path="/folders/:folder" element={<TasksView/>}></Route>
           <Route path="/sign-up" element={<SignUpView />}></Route>
         </Routes>
       </BrowserRouter>

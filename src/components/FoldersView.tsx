@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from 'react-router-dom'
+import { UserContext, UserContextType } from "../userContext";
 
-type folderViewProps = {
-    username: string
-}
-function FoldersView(props: folderViewProps) {
+function FoldersView() {
 
     const [folders, fetchFolders] = useState<any>([]);
     const [newFolder, setNewFolder] = useState<string>("");
+    const userContext: UserContextType | null = useContext(UserContext);
+
 
     const getFolders = () => {
         fetch("http://localhost:5001/api/todo/folder",
@@ -24,7 +24,7 @@ function FoldersView(props: folderViewProps) {
     useEffect(() => {
         getFolders()
     }, [])
-    if (props.username === "")
+    if (userContext?.username === "")
         return <Navigate to="/" replace/>
 
     const handleRemoveFolder = (folderName: string) => (event: any) => {
@@ -38,7 +38,7 @@ function FoldersView(props: folderViewProps) {
                     Accept: "application/json,text/*;q=0.99",
                 },
                 body: JSON.stringify({
-                    owner: props.username,
+                    owner: userContext?.username,
                     name: folderName
                 })
             });
@@ -48,7 +48,7 @@ function FoldersView(props: folderViewProps) {
     const handleSubmit = (event: any) => {
         event.preventDefault();
         const data = {
-            owner: props.username,
+            owner: userContext?.username,
             name: newFolder
         };
         fetchFolders([...folders, { name: newFolder }]);
@@ -61,7 +61,7 @@ function FoldersView(props: folderViewProps) {
                     Accept: "application/json,text/*;q=0.99",
                 },
                 body: JSON.stringify({
-                    owner: props.username,
+                    owner: userContext?.username,
                     name: newFolder
                 })
             })
@@ -74,7 +74,7 @@ function FoldersView(props: folderViewProps) {
 
     return (
         <div className="folders-container">
-            <h1 className="folders-header">{props.username + "'s Folders"}</h1>
+            <h1 className="folders-header">{userContext?.username + "'s Folders"}</h1>
             <main className="folders-main">
                 <ul className="folder-list">
                     {
