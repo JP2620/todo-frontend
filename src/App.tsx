@@ -10,19 +10,22 @@ import {
 import FoldersView from './components/FoldersView';
 import TasksView from './components/TasksView';
 import SignUpView from './components/SignUpView';
+import { UserContext } from './userContext';
 
 function App() {
-  const [username, setUsername] = React.useState({username: ""})
-  
+  const [username, setUsername] = React.useState("")
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LogInForm auth_user={username.username} handler={setUsername} />}></Route>
-        <Route path="/folders" element={<FoldersView username={username.username}/>}></Route>
-        <Route path="/folders/:folder" element={<TasksView username={username.username}/>}></Route>
-        <Route path="/sign-up" element={<SignUpView/>}></Route>
-      </Routes>
-    </BrowserRouter>
+    <UserContext.Provider value={{username: username, setUsername: setUsername}}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LogInForm/>}></Route>
+          <Route path="/folders" element={<FoldersView username={username} />}></Route>
+          <Route path="/folders/:folder" element={<TasksView username={username} />}></Route>
+          <Route path="/sign-up" element={<SignUpView />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 

@@ -10,7 +10,6 @@ function SignUpView() {
         password: "",
     })
 
-    const users : string[] = ["user1", "user2", "user3"]; 
 
     const [usernameBeingWritten, setUsernameBeingWritten] = useState(false);
     const [usernameAvailable, setUsernameAvailable] = useState(true);
@@ -33,7 +32,7 @@ function SignUpView() {
     useEffect(() => {
         setTimeout(() => {
             setLastModificationUsername((prevState) => {
-                if (Date.now() / 1000 - prevState > 0.9 && usernameBeingWritten) {
+                if (Date.now() / 1000 - prevState > 0.4 && usernameBeingWritten) {
                     setUsernameBeingWritten(false);
                     fetch(`http://localhost:5001/api/users/search/${state.username}`, {
                         method: "HEAD"
@@ -45,7 +44,7 @@ function SignUpView() {
                 }
                 return prevState;
             })
-        }, 1000)
+        }, 500)
     }, [lastModificationUsername])
 
     return (
@@ -124,6 +123,7 @@ function SignUpView() {
                         onChange={handleInputChange}
                         onKeyUp={handleUsernameKeyUp}
                         style={{ backgroundColor: usernameAvailable ? 'inherit' : '#f0b9c8', borderWidth: '1px' }}
+                        minLength={3}
                         required
                     />
                 </div>
@@ -139,6 +139,7 @@ function SignUpView() {
                         placeholder="Password"
                         value={state.password}
                         onChange={handleInputChange}
+                        minLength={8}
                         required
                     />
                 </div>
