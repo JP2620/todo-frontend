@@ -1,14 +1,11 @@
 import React, { Component, FC, useContext, useState } from "react";
-import {
-  Link,
-  Navigate
-} from 'react-router-dom'
+import { Link, Navigate } from "react-router-dom";
 import { UserContext, UserContextType } from "../userContext";
 
 type LogInProps = {
-  auth_user: string,
-  handler: any,
-}
+  auth_user: string;
+  handler: any;
+};
 
 const LogInForm: FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -23,16 +20,16 @@ const LogInForm: FC = () => {
       body: JSON.stringify({ username, password }),
       headers: {
         "Content-Type": "application/json",
-        Accept: "*/*"
-      }
+        Accept: "*/*",
+      },
     })
       .then((data) => {
         userContext!.setUsername(username);
       })
       .catch((error: Error) => {
         console.log(error);
-      })
-  }
+      });
+  };
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -44,14 +41,12 @@ const LogInForm: FC = () => {
   };
 
   if (userContext?.username !== "")
-    return <Navigate to="/folders" replace={true} />
+    return <Navigate to="/folders" replace={true} />;
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="form-field">
-          <label htmlFor="usernameInput">
-            Username
-          </label>
+          <label htmlFor="usernameInput">Username</label>
           <input
             id="usernameInput"
             type="text"
@@ -64,9 +59,7 @@ const LogInForm: FC = () => {
         </div>
 
         <div className="form-field">
-          <label htmlFor="passwordInput">
-            Password
-          </label>
+          <label htmlFor="passwordInput">Password</label>
           <input
             id="passwordInput"
             type="password"
@@ -77,12 +70,13 @@ const LogInForm: FC = () => {
             required
           />
         </div>
-        <p className="login-signup">Don't have an account? <Link to="/sign-up">Sign up</Link></p>
+        <p className="login-signup">
+          Don't have an account? <Link to="/sign-up">Sign up</Link>
+        </p>
         <button type="submit">Login</button>
       </form>
     </div>
   );
-
-}
+};
 
 export default LogInForm;
