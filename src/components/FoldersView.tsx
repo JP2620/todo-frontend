@@ -1,65 +1,39 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import FoldersService from "../services/FoldersService";
 import Folder from "../types/Folder";
+import { NewFolderDto } from "../types/NewFolderDto";
 import { UserContext } from "../userContext";
 
 function FoldersView() {
   const [folders, setFolders] = useState<Folder[]>([]);
+  const [lastChangeTimestamp, setLastChangeTimestamp] = useState<Date>(
+    new Date()
+  );
   const [newFolder, setNewFolder] = useState<string>("");
   const { user, setUser } = useContext(UserContext);
 
-  const getFolders = () => {
-    fetch("http://localhost:5001/api/todo/folder", {
-      credentials: "include",
-    })
+  useEffect(() => {
+    FoldersService.getFolders()
       .then((res) => res.json())
       .then((res) => setFolders(res));
-  };
-
-  useEffect(() => {
-    getFolders();
   }, []);
   if (!(user && user.id)) return <Navigate to="/" replace />;
 
-  const handleRemoveFolder = (folderName: string) => (event: any) => {
+  const handleRemoveFolder = (folderId: number) => (event: any) => {
     event.preventDefault();
-    fetch("http://localhost:5001/api/todo/folder", {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json,text/*;q=0.99",
-      },
-      body: JSON.stringify({
-        owner: user.username,
-        name: folderName,
-      }),
-    });
-    setFolders(folders.filter((item: Folder) => item.name !== folderName));
+    FoldersService.deleteFolder(folderId);
+    setLastChangeTimestamp(new Date());
   };
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const data = {
+    const data: NewFolderDto = {
       owner: user.username,
       name: newFolder,
     };
-    setFolders([...folders, { name: newFolder }]);
-    fetch("http://localhost:5001/api/todo/folder", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json,text/*;q=0.99",
-      },
-      body: JSON.stringify({
-        owner: user.username,
-        name: newFolder,
-      }),
-    }).then(() => {
-      const input: any = document.getElementById("new-folder-input");
-      input.value = "";
-    });
+    setLastChangeTimestamp(new Date());
+    FoldersService.createFolder(data);
   };
 
   return (
@@ -78,7 +52,7 @@ function FoldersView() {
               </Link>
               <p
                 className="folder-remove"
-                onClick={handleRemoveFolder(folder.name)}
+                onClick={handleRemoveFolder(folder.id)}
               >
                 Remove
               </p>
