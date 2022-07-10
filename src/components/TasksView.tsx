@@ -1,5 +1,7 @@
 import React, { FormEvent, useContext, useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
+import TasksService from "../services/TasksService";
+import { NewTaskDto } from "../types/NewTaskDto";
 import Task from "../types/Task";
 import { UserContext } from "../userContext";
 import TaskItem from "./TaskItem";
@@ -13,19 +15,28 @@ const TasksView = () => {
   const { user } = useContext(UserContext);
 
   const params = useParams();
-  const getTasks = () => {
-    fetch("http://localhost:5001/api/todo/folder/" + params.folder, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setTasks(res);
-      });
-  };
 
   useEffect(() => {
-    getTasks();
+    if (params.folder) {
+      TasksService.getTasks(params.folder)
+        .then((res) => res.json())
+        .then((res) => {
+          setTasks(res);
+        });
+    }
   }, [lastUpdateTimestamp]);
+
+  const handleSubmitNewTask = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data: NewTaskDto = {
+      folderName: params.folder as string,
+      name: newTask,
+    };
+    TasksService.createTask(data).then(() => {
+      setLastUpdateTimestamp(new Date());
+      setNewTask("");
+    });
+  };
 
   if (!(user && user)) return <Navigate to="/" replace />;
 
@@ -57,29 +68,7 @@ const TasksView = () => {
             />
           ))}
         </ul>
-        <form
-          className="task-form"
-          onSubmit={(event: FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            const data = {
-              folderName: params.folder,
-              name: newTask,
-            };
-
-            fetch("http://localhost:5001/api/todo/task", {
-              method: "POST",
-              credentials: "include",
-              body: JSON.stringify(data),
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json,text/*;q=0.99",
-              },
-            }).then(() => {
-              getTasks();
-              setNewTask("");
-            });
-          }}
-        >
+        <form className="task-form" onSubmit={handleSubmitNewTask}>
           <input
             id="new-task-input"
             type="text"
