@@ -1,24 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import LogInForm from "./components/LogInForm";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FoldersView from "./components/FoldersView";
 import TasksView from "./components/TasksView";
 import SignUpView from "./components/SignUpView";
-import { UserContext } from "./userContext";
+import { User, UserContext } from "./userContext";
 
 function App() {
-  const [username, setUsername] = React.useState("");
+  const [user, setUser] = useState<User>({} as User);
+
+  useEffect(() => {
+    fetch("http://localhost:5001/api/auth", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "*/*",
+      },
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          res.json().then((authData) => {
+            setUser(authData.passport.user as User);
+          });
+        }
+      })
+      .catch(() => setUser({} as User));
+  }, []);
 
   return (
-    <UserContext.Provider
-      value={{ username: username, setUsername: setUsername }}
-    >
+    <UserContext.Provider value={{ user, setUser }}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LogInForm />}></Route>
           <Route path="/folders" element={<FoldersView />}></Route>
           <Route path="/folders/:folder" element={<TasksView />}></Route>
+          <Route path="/" element={<LogInForm />}></Route>
           <Route path="/sign-up" element={<SignUpView />}></Route>
         </Routes>
       </BrowserRouter>

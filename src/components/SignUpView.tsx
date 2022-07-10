@@ -29,7 +29,6 @@ function SignUpView() {
   ) => {
     setLastModificationUsername(Date.now() / 1000);
     setUsernameBeingWritten(true);
-    console.log(lastModificationUsername);
   };
 
   useEffect(() => {

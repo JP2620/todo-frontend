@@ -1,18 +1,13 @@
-import React, { Component, FC, useContext, useState } from "react";
+import React, { FC, FormEvent, useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { UserContext, UserContextType } from "../userContext";
-
-type LogInProps = {
-  auth_user: string;
-  handler: any;
-};
+import { User, UserContext, UserContextType } from "../userContext";
 
 const LogInForm: FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const userContext: UserContextType | null = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     fetch("http://localhost:5001/api/auth/login", {
       method: "POST",
@@ -23,8 +18,20 @@ const LogInForm: FC = () => {
         Accept: "*/*",
       },
     })
-      .then((data) => {
-        userContext!.setUsername(username);
+      .then(() => {
+        fetch("http://localhost:5001/api/auth", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "*/*",
+          },
+        })
+          .then((res) => {
+            res.json().then((authData) => {
+              setUser(authData.passport.user as User);
+            });
+          })
+          .catch(() => setUser({} as User));
       })
       .catch((error: Error) => {
         console.log(error);
@@ -40,8 +47,7 @@ const LogInForm: FC = () => {
     }
   };
 
-  if (userContext?.username !== "")
-    return <Navigate to="/folders" replace={true} />;
+  if (user && user.username) return <Navigate to="/folders" replace={true} />;
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
@@ -71,7 +77,7 @@ const LogInForm: FC = () => {
           />
         </div>
         <p className="login-signup">
-          Don't have an account? <Link to="/sign-up">Sign up</Link>
+          Don&apost have an account? <Link to="/sign-up">Sign up</Link>
         </p>
         <button type="submit">Login</button>
       </form>
