@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import Folder from "../types/Folder";
 import { UserContext } from "../userContext";
 
 function FoldersView() {
-  const [folders, fetchFolders] = useState<any>([]);
+  const [folders, setFolders] = useState<Folder[]>([]);
   const [newFolder, setNewFolder] = useState<string>("");
   const { user, setUser } = useContext(UserContext);
 
@@ -12,9 +13,7 @@ function FoldersView() {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((res) => {
-        fetchFolders(res);
-      });
+      .then((res) => setFolders(res));
   };
 
   useEffect(() => {
@@ -36,7 +35,7 @@ function FoldersView() {
         name: folderName,
       }),
     });
-    fetchFolders(folders.filter((item: any) => item.name !== folderName));
+    setFolders(folders.filter((item: Folder) => item.name !== folderName));
   };
 
   const handleSubmit = (event: any) => {
@@ -45,7 +44,7 @@ function FoldersView() {
       owner: user.username,
       name: newFolder,
     };
-    fetchFolders([...folders, { name: newFolder }]);
+    setFolders([...folders, { name: newFolder }]);
     fetch("http://localhost:5001/api/todo/folder", {
       method: "POST",
       credentials: "include",
@@ -68,8 +67,8 @@ function FoldersView() {
       <h1 className="folders-header">{user.username + "'s Folders"}</h1>
       <main className="folders-main">
         <ul className="folder-list">
-          {folders.map((folder: any) => (
-            <li key={folders.name} className="folder-item">
+          {folders.map((folder) => (
+            <li key={folder.name} className="folder-item">
               <p className="folder-name">{folder.name}</p>
               <Link
                 to={"/folders/" + folder.name}
