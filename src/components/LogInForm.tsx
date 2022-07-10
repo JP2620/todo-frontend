@@ -1,16 +1,11 @@
-import React, { Component, FC, FormEvent, useContext, useState } from "react";
+import React, { FC, FormEvent, useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { UserContext, UserContextType } from "../userContext";
-
-type LogInProps = {
-  auth_user: string;
-  handler: any;
-};
+import { User, UserContext, UserContextType } from "../userContext";
 
 const LogInForm: FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const userContext: UserContextType | null = useContext(UserContext);
+  const userContext: UserContextType = useContext(UserContext);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -23,8 +18,20 @@ const LogInForm: FC = () => {
         Accept: "*/*",
       },
     })
-      .then((data: Response) => {
-        userContext!.setUsername(username);
+      .then(() => {
+        fetch("http://localhost:5001/api/auth", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "*/*",
+          },
+        })
+          .then((res) => {
+            res.json().then((authData) => {
+              userContext.setUser(authData.passport.user as User);
+            });
+          })
+          .catch(() => userContext.setUser({} as User));
       })
       .catch((error: Error) => {
         console.log(error);
@@ -40,7 +47,7 @@ const LogInForm: FC = () => {
     }
   };
 
-  if (userContext?.username !== "")
+  if (!userContext.user.username)
     return <Navigate to="/folders" replace={true} />;
   return (
     <div className="login-container">

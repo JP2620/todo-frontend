@@ -8,7 +8,7 @@ import SignUpView from "./components/SignUpView";
 import { UserContext, UserContextType } from "./userContext";
 
 function App() {
-  const [user, setUser] = useState<UserContextType | null>(null);
+  const [user, setUser] = useState<UserContextType>({} as UserContextType);
 
   useEffect(() => {
     fetch("http://localhost:5001/api/auth", {
@@ -23,7 +23,7 @@ function App() {
           setUser(authData.passport.user as UserContextType);
         });
       })
-      .catch(() => setUser(null));
+      .catch(() => setUser({} as UserContextType));
   }, []);
 
   return (
