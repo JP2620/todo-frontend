@@ -25,7 +25,8 @@ const TasksView = () => {
 
   useEffect(() => {
     getTasks();
-  }, []);
+  }, [lastUpdateTimestamp]);
+
   if (!(user && user)) return <Navigate to="/" replace />;
 
   return (
@@ -49,10 +50,12 @@ const TasksView = () => {
           {tasks.map((task: Task) => (
             <TaskItem
               key={task.id}
+              id={task.id}
               userId={user.id}
               folderId={task.folder.id}
               taskName={task.name}
               completed={task.state}
+              setLastUpdateTimestamp={setLastUpdateTimestamp}
             />
           ))}
         </ul>
@@ -93,6 +96,6 @@ const TasksView = () => {
       </main>
     </div>
   );
-}
+};
 
 export default TasksView;

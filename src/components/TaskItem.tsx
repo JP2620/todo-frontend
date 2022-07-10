@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 type TaskItemProps = {
+  id: number;
   taskName: string;
   completed: string;
   userId: number;
   folderId: number;
+  setLastUpdateTimestamp: (timestamp: Date) => void;
 };
 
 function TaskItem(props: TaskItemProps) {
@@ -23,9 +25,8 @@ function TaskItem(props: TaskItemProps) {
 
   useEffect(() => {
     const data = {
-      owner: state.owner,
-      folder: props.folderId,
-      old_description: state.name,
+      id: props.id,
+      name: state.name,
       state: state.checked ? "Completed" : "Uncompleted",
     };
     fetch("http://localhost:5001/api/todo/task", {
@@ -36,9 +37,8 @@ function TaskItem(props: TaskItemProps) {
         "Content-Type": "application/json",
         Accept: "application/json,text/*;q=0.99",
       },
-    });
+    }).then(() => props.setLastUpdateTimestamp(new Date()));
   }, [state.name, state.checked]);
-  console.log(state);
 
   return (
     <li className="task-item">
@@ -51,9 +51,7 @@ function TaskItem(props: TaskItemProps) {
         />
       </div>
       <p className="task-name">{state.name}</p>
-      <p className="task-edit">
-        Edit
-      </p>
+      <p className="task-edit">Edit</p>
     </li>
   );
 }
