@@ -1,4 +1,4 @@
-import React, { Component, FC, useContext, useState } from "react";
+import React, { Component, FC, FormEvent, useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { UserContext, UserContextType } from "../userContext";
 
@@ -12,7 +12,7 @@ const LogInForm: FC = () => {
   const [password, setPassword] = useState<string>("");
   const userContext: UserContextType | null = useContext(UserContext);
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     fetch("http://localhost:5001/api/auth/login", {
       method: "POST",
@@ -23,7 +23,7 @@ const LogInForm: FC = () => {
         Accept: "*/*",
       },
     })
-      .then((data) => {
+      .then((data: Response) => {
         userContext!.setUsername(username);
       })
       .catch((error: Error) => {

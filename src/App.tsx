@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import LogInForm from "./components/LogInForm";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FoldersView from "./components/FoldersView";
 import TasksView from "./components/TasksView";
 import SignUpView from "./components/SignUpView";
-import { UserContext } from "./userContext";
+import { UserContext, UserContextType } from "./userContext";
 
 function App() {
-  const [username, setUsername] = React.useState("");
+  const [user, setUser] = useState<UserContextType | null>(null);
+
+  useEffect(() => {
+    fetch("http://localhost:5001/api/auth", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "*/*",
+      },
+    })
+      .then((res) => {
+        res.json().then((authData) => {
+          setUser(authData.passport.user as UserContextType);
+        });
+      })
+      .catch(() => setUser(null));
+  }, []);
 
   return (
-    <UserContext.Provider
-      value={{ username: username, setUsername: setUsername }}
-    >
+    <UserContext.Provider value={user}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LogInForm />}></Route>
