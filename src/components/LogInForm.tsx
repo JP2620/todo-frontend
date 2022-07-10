@@ -5,7 +5,7 @@ import { User, UserContext, UserContextType } from "../userContext";
 const LogInForm: FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const userContext: UserContextType = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -28,10 +28,10 @@ const LogInForm: FC = () => {
         })
           .then((res) => {
             res.json().then((authData) => {
-              userContext.setUser(authData.passport.user as User);
+              setUser(authData.passport.user as User);
             });
           })
-          .catch(() => userContext.setUser({} as User));
+          .catch(() => setUser({} as User));
       })
       .catch((error: Error) => {
         console.log(error);
@@ -47,8 +47,7 @@ const LogInForm: FC = () => {
     }
   };
 
-  if (!userContext.user.username)
-    return <Navigate to="/folders" replace={true} />;
+  if (user && user.username) return <Navigate to="/folders" replace={true} />;
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
@@ -78,7 +77,7 @@ const LogInForm: FC = () => {
           />
         </div>
         <p className="login-signup">
-          Don't have an account? <Link to="/sign-up">Sign up</Link>
+          Don&apost have an account? <Link to="/sign-up">Sign up</Link>
         </p>
         <button type="submit">Login</button>
       </form>

@@ -9,7 +9,7 @@ export interface User {
 
 export type UserContextType = {
   user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
+  setUser: (user: User) => void;
 };
 export const UserContext = createContext<UserContextType>(
   {} as UserContextType

@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, Navigate, RouteProps, useParams } from "react-router-dom";
-import { UserContext, UserContextType } from "../userContext";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { UserContext } from "../userContext";
 import TaskItem from "./TaskItem";
 
 function TasksView() {
   const [tasks, fetchTasks] = useState<any>([]);
   const [newTask, setNewTask] = useState("");
-  const userContext: UserContextType | null = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const params = useParams();
   const getTasks = () => {
@@ -15,7 +15,6 @@ function TasksView() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         fetchTasks(res);
       });
   };
@@ -23,7 +22,7 @@ function TasksView() {
   useEffect(() => {
     getTasks();
   }, []);
-  if (userContext?.username === "") return <Navigate to="/" replace />;
+  if (!(user && user)) return <Navigate to="/" replace />;
 
   return (
     <div className="tasks-container">
@@ -45,7 +44,8 @@ function TasksView() {
         <ul className="task-list">
           {tasks.map((task: any) => (
             <TaskItem
-              username={userContext!.username}
+              key={task.name}
+              username={user.username}
               folder={params.folder}
               taskName={task.name}
               completed={task.state}
@@ -58,7 +58,7 @@ function TasksView() {
             event.preventDefault();
             const data = {
               folder: params.folder,
-              owner: userContext?.username,
+              owner: user.username,
               description: newTask,
             };
 

@@ -39,7 +39,6 @@ function TaskItem(props: TaskItemProps) {
         Accept: "application/json,text/*;q=0.99",
       },
     });
-    console.log(data);
   }, [state.name, state.checked]);
 
   const editTaskModalProps = {
