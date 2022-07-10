@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import FoldersService from "../services/FoldersService";
 import Folder from "../types/Folder";
@@ -11,29 +11,31 @@ function FoldersView() {
     new Date()
   );
   const [newFolder, setNewFolder] = useState<string>("");
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+
+  if (!(user && user.id)) return <Navigate to="/" replace />;
 
   useEffect(() => {
     FoldersService.getFolders()
       .then((res) => res.json())
-      .then((res) => setFolders(res));
-  }, []);
-  if (!(user && user.id)) return <Navigate to="/" replace />;
+      .then((data) => setFolders(data));
+  }, [lastChangeTimestamp]);
 
-  const handleRemoveFolder = (folderId: number) => (event: any) => {
-    event.preventDefault();
-    FoldersService.deleteFolder(folderId);
-    setLastChangeTimestamp(new Date());
+  const handleRemoveFolder = (folderId: number) => {
+    FoldersService.deleteFolder(folderId).then(() =>
+      setLastChangeTimestamp(new Date())
+    );
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data: NewFolderDto = {
       owner: user.username,
       name: newFolder,
     };
-    setLastChangeTimestamp(new Date());
-    FoldersService.createFolder(data);
+    FoldersService.createFolder(data).then(() =>
+      setLastChangeTimestamp(new Date())
+    );
   };
 
   return (
@@ -52,7 +54,7 @@ function FoldersView() {
               </Link>
               <p
                 className="folder-remove"
-                onClick={handleRemoveFolder(folder.id)}
+                onClick={() => handleRemoveFolder(folder.id)}
               >
                 Remove
               </p>
