@@ -51,9 +51,7 @@ const TasksView = () => {
             <TaskItem
               key={task.id}
               id={task.id}
-              userId={user.id}
-              folderId={task.folder.id}
-              taskName={task.name}
+              name={task.name}
               completed={task.state}
               setLastUpdateTimestamp={setLastUpdateTimestamp}
             />
