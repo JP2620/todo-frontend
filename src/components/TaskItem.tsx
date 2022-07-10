@@ -8,7 +8,6 @@ type TaskItemProps = {
 };
 
 function TaskItem(props: TaskItemProps) {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [state, setState] = useState({
     owner: props.userId,
     folder: props.folderId,
@@ -39,12 +38,7 @@ function TaskItem(props: TaskItemProps) {
       },
     });
   }, [state.name, state.checked]);
-
-  const editTaskModalProps = {
-    openModal: setModalOpen,
-    setState: setState,
-    ...state,
-  };
+  console.log(state);
 
   return (
     <li className="task-item">
@@ -57,7 +51,7 @@ function TaskItem(props: TaskItemProps) {
         />
       </div>
       <p className="task-name">{state.name}</p>
-      <p className="task-edit" onClick={() => setModalOpen(true)}>
+      <p className="task-edit">
         Edit
       </p>
     </li>

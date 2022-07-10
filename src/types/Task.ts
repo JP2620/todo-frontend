@@ -1,7 +1,9 @@
+import Folder from "./Folder";
+
 interface Task {
   id: number;
-  folder: number;
-  description: string;
+  folder: Folder;
+  name: string;
   state: string;
 }
 

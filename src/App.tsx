@@ -33,7 +33,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/folders" element={<FoldersView />}></Route>
-          <Route path="/folders/:folder" element={<TasksView />}></Route>
+          <Route path="/folder/:folder" element={<TasksView />}></Route>
           <Route path="/" element={<LogInForm />}></Route>
           <Route path="/sign-up" element={<SignUpView />}></Route>
         </Routes>

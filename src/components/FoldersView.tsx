@@ -47,10 +47,7 @@ function FoldersView() {
           {folders.map((folder) => (
             <li key={folder.name} className="folder-item">
               <p className="folder-name">{folder.name}</p>
-              <Link
-                to={"/folders/" + folder.name}
-                className="folder-view-items"
-              >
+              <Link to={"/folder/" + folder.name} className="folder-view-items">
                 View items
               </Link>
               <p

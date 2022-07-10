@@ -4,9 +4,12 @@ import Task from "../types/Task";
 import { UserContext } from "../userContext";
 import TaskItem from "./TaskItem";
 
-function TasksView() {
+const TasksView = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTask, setNewTask] = useState("");
+  const [newTask, setNewTask] = useState<string>("");
+  const [lastUpdateTimestamp, setLastUpdateTimestamp] = useState<Date>(
+    new Date()
+  );
   const { user } = useContext(UserContext);
 
   const params = useParams();
@@ -47,8 +50,8 @@ function TasksView() {
             <TaskItem
               key={task.id}
               userId={user.id}
-              folderId={task.folder}
-              taskName={task.description}
+              folderId={task.folder.id}
+              taskName={task.name}
               completed={task.state}
             />
           ))}
@@ -58,9 +61,8 @@ function TasksView() {
           onSubmit={(event: FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             const data = {
-              folder: params.folder,
-              owner: user.username,
-              description: newTask,
+              folderName: params.folder,
+              name: newTask,
             };
 
             fetch("http://localhost:5001/api/todo/task", {
@@ -72,6 +74,7 @@ function TasksView() {
                 Accept: "application/json,text/*;q=0.99",
               },
             }).then(() => {
+              getTasks();
               setNewTask("");
             });
           }}
