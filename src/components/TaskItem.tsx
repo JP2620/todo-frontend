@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
-import EditTaskModal from "./EditTaskModal";
 
 type TaskItemProps = {
   taskName: string;
   completed: string;
-  username: string;
-  folder: string | undefined;
+  userId: number;
+  folderId: number;
 };
 
 function TaskItem(props: TaskItemProps) {
-  const [modalOpen, setModalOpen] = React.useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [state, setState] = useState({
-    owner: props.username,
-    folder: props.folder,
+    owner: props.userId,
+    folder: props.folderId,
     name: props.taskName,
     checked: props.completed === "Completed",
   });
-  const handleClick = (event: any) => {
+  const handleClick = () => {
     setState({
       ...state,
       checked: !state.checked,
@@ -26,7 +25,7 @@ function TaskItem(props: TaskItemProps) {
   useEffect(() => {
     const data = {
       owner: state.owner,
-      folder: props.folder,
+      folder: props.folderId,
       old_description: state.name,
       state: state.checked ? "Completed" : "Uncompleted",
     };
@@ -61,7 +60,6 @@ function TaskItem(props: TaskItemProps) {
       <p className="task-edit" onClick={() => setModalOpen(true)}>
         Edit
       </p>
-      {modalOpen && <EditTaskModal {...editTaskModalProps} />}
     </li>
   );
 }

@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
+import Task from "../types/Task";
 import { UserContext } from "../userContext";
 import TaskItem from "./TaskItem";
 
 function TasksView() {
-  const [tasks, fetchTasks] = useState<any>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState("");
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const params = useParams();
   const getTasks = () => {
@@ -15,7 +16,7 @@ function TasksView() {
     })
       .then((res) => res.json())
       .then((res) => {
-        fetchTasks(res);
+        setTasks(res);
       });
   };
 
@@ -42,19 +43,19 @@ function TasksView() {
       </h1>
       <main className="tasks-main">
         <ul className="task-list">
-          {tasks.map((task: any) => (
+          {tasks.map((task: Task) => (
             <TaskItem
-              key={task.name}
-              username={user.username}
-              folder={params.folder}
-              taskName={task.name}
+              key={task.id}
+              userId={user.id}
+              folderId={task.folder}
+              taskName={task.description}
               completed={task.state}
             />
           ))}
         </ul>
         <form
           className="task-form"
-          onSubmit={(event: any) => {
+          onSubmit={(event: FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             const data = {
               folder: params.folder,
@@ -71,9 +72,7 @@ function TasksView() {
                 Accept: "application/json,text/*;q=0.99",
               },
             }).then(() => {
-              fetchTasks([...tasks, { name: newTask }]);
-              const input: any = document.getElementById("new-task-input");
-              input.value = "";
+              setNewTask("");
             });
           }}
         >
@@ -84,6 +83,7 @@ function TasksView() {
             placeholder="New Task"
             required
             onChange={(e) => setNewTask(e.target.value)}
+            value={newTask}
           />
           <button type="submit">Add</button>
         </form>

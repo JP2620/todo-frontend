@@ -33,9 +33,10 @@ function FoldersView() {
       owner: user.username,
       name: newFolder,
     };
-    FoldersService.createFolder(data).then(() =>
-      setLastChangeTimestamp(new Date())
-    );
+    FoldersService.createFolder(data).then(() => {
+      setNewFolder("");
+      setLastChangeTimestamp(new Date());
+    });
   };
 
   return (
@@ -70,6 +71,7 @@ function FoldersView() {
             placeholder="New Folder"
             required
             onChange={(e) => setNewFolder(e.target.value)}
+            value={newFolder}
           />
           <button type="submit">Add</button>
         </form>
