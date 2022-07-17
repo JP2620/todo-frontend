@@ -4,6 +4,7 @@ import FoldersService from "../services/FoldersService";
 import Folder from "../types/Folder";
 import { NewFolderDto } from "../types/NewFolderDto";
 import { UserContext } from "../userContext";
+import "./FoldersView.css";
 
 function FoldersView() {
   const [folders, setFolders] = useState<Folder[]>([]);
