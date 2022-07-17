@@ -77,7 +77,7 @@ const LogInForm: FC = () => {
           />
         </div>
         <p className="login-signup">
-          Don&apost have an account? <Link to="/sign-up">Sign up</Link>
+          Don't have an account? <Link to="/sign-up">Sign up</Link>
         </p>
         <button type="submit">Login</button>
       </form>
