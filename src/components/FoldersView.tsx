@@ -4,6 +4,7 @@ import FoldersService from "../services/FoldersService";
 import Folder from "../types/Folder";
 import { NewFolderDto } from "../types/NewFolderDto";
 import { UserContext } from "../userContext";
+import "./FoldersView.css";
 
 function FoldersView() {
   const [folders, setFolders] = useState<Folder[]>([]);
@@ -41,9 +42,9 @@ function FoldersView() {
 
   return (
     <div className="folders-container">
-      <h1 className="folders-header">{user.username + "'s Folders"}</h1>
-      <main className="folders-main">
-        <ul className="folder-list">
+      <h1 className="folders-header">Your folders</h1>
+      <main className="folders-content">
+        <ul className="folders-list">
           {folders.map((folder) => (
             <li key={folder.name} className="folder-item">
               <p className="folder-name">{folder.name}</p>
@@ -51,7 +52,7 @@ function FoldersView() {
                 View items
               </Link>
               <p
-                className="folder-remove"
+                className="folder-item-remove"
                 onClick={() => handleRemoveFolder(folder.id)}
               >
                 Remove
@@ -59,19 +60,18 @@ function FoldersView() {
             </li>
           ))}
         </ul>
-
-        <form className="folder-form" method="post" onSubmit={handleSubmit}>
-          <input
-            id="new-folder-input"
-            type="text"
-            name="newFolder"
-            placeholder="New Folder"
-            required
-            onChange={(e) => setNewFolder(e.target.value)}
-            value={newFolder}
-          />
-          <button type="submit">Add</button>
-        </form>
+        <div className="folder-form-container">
+          <form className="folder-form" method="post" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="New Folder"
+              required
+              onChange={(e) => setNewFolder(e.target.value)}
+              value={newFolder}
+            />
+            <button type="submit">Add</button>
+          </form>
+        </div>
       </main>
     </div>
   );
