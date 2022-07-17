@@ -3,7 +3,7 @@
 :root {
   --accent-color: #F19F3C;
   --main-bg-color: whitesmoke;
-  --content-width__desktop: 35vw;
+  --content-width__desktop: 40vw;
   --content-width__tablet: 60vw;
   --content-width__mobile: 100vw;
 }
