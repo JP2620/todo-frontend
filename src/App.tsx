@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./reset.css";
 import "./App.css";
 import LogInForm from "./components/LogInForm";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
