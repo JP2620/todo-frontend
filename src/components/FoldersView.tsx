@@ -51,7 +51,7 @@ function FoldersView() {
                 View items
               </Link>
               <p
-                className="folder-remove"
+                className="folder-item-remove"
                 onClick={() => handleRemoveFolder(folder.id)}
               >
                 Remove
@@ -59,17 +59,18 @@ function FoldersView() {
             </li>
           ))}
         </ul>
-
-        <form className="folder-form" method="post" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="New Folder"
-            required
-            onChange={(e) => setNewFolder(e.target.value)}
-            value={newFolder}
-          />
-          <button type="submit">Add</button>
-        </form>
+        <div className="folder-form-container">
+          <form className="folder-form" method="post" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="New Folder"
+              required
+              onChange={(e) => setNewFolder(e.target.value)}
+              value={newFolder}
+            />
+            <button type="submit">Add</button>
+          </form>
+        </div>
       </main>
     </div>
   );
