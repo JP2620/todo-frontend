@@ -1,10 +1,11 @@
-import React, { FormEvent, useContext, useEffect, useState } from "react";
+import React, { FormEvent, LegacyRef, useContext, useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import TasksService from "../services/TasksService";
 import { NewTaskDto } from "../types/NewTaskDto";
 import Task from "../types/Task";
 import { UserContext } from "../userContext";
 import TaskItem from "./TaskItem";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const TasksView = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -15,6 +16,7 @@ const TasksView = () => {
   const { user } = useContext(UserContext);
 
   const params = useParams();
+  const [parent] = useAutoAnimate();
 
   useEffect(() => {
     if (params.folder) {
@@ -57,7 +59,7 @@ const TasksView = () => {
         {params.folder}
       </h1>
       <main className="tasks-main">
-        <ul className="task-list">
+        <ul className="task-list" ref={parent as LegacyRef<HTMLUListElement>}>
           {tasks.map((task: Task) => (
             <TaskItem
               key={task.id}

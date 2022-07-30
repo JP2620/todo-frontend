@@ -1,4 +1,5 @@
-import React, { FormEvent, useContext, useEffect, useState } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import React, { FormEvent, LegacyRef, useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import FoldersService from "../services/FoldersService";
 import Folder from "../types/Folder";
@@ -13,6 +14,7 @@ function FoldersView() {
   );
   const [newFolder, setNewFolder] = useState<string>("");
   const { user } = useContext(UserContext);
+  const [ parent ] = useAutoAnimate();
 
   if (!(user && user.id)) return <Navigate to="/" replace />;
 
@@ -44,7 +46,7 @@ function FoldersView() {
     <div className="folders-container">
       <h1 className="folders-header">Your folders</h1>
       <main className="folders-content">
-        <ul className="folders-list">
+        <ul className="folders-list" ref={parent as LegacyRef<HTMLUListElement>}>
           {folders.map((folder) => (
             <li key={folder.name} className="folder-item">
               <p className="folder-name">{folder.name}</p>
