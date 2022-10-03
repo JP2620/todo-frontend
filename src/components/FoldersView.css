@@ -68,12 +68,14 @@
   min-width: 0;
   padding: 0.25em;
   border-radius: 0.25em;
+  border-width: 1px;
 }
 
 .folder-form > button {
   grid-area: button;
   border-radius: 0.25em;
   min-width: 0;
+  border-width: 1px;
 }
 
 .folder-form > button:hover {

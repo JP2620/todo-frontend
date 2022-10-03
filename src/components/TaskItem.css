@@ -1,0 +1,14 @@
+.task-item {
+  width: 90%;
+  font-size: 1.125rem;
+  font-weight: 400;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1rem;
+  align-content: center;
+}
+
+.task-checkbox {
+  accent-color: var(--accent-color);
+}
+

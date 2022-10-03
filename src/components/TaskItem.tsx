@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./TaskItem.css";
 
 type TaskItemProps = {
   id: number;
@@ -36,14 +37,12 @@ const TaskItem = (props: TaskItemProps) => {
 
   return (
     <li className="task-item">
-      <div className="checkbox-div">
-        <input
-          className="task-checkbox"
-          type="checkbox"
-          defaultChecked={completed}
-          onClick={handleClick}
-        />
-      </div>
+      <input
+        className="task-checkbox"
+        type="checkbox"
+        defaultChecked={completed}
+        onClick={handleClick}
+      />
       <p className="task-name">{name}</p>
       <p className="task-edit">Edit</p>
     </li>
