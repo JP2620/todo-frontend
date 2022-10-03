@@ -27,18 +27,12 @@
 
 .folder-item {
   width: 90%;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 400;
   align-self: center;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 1rem;
-}
-
-.folder-item-remove {
-  text-align: center;
-  color: #dd6666;
-  cursor: pointer;
 }
 
 .folder-view-items {
@@ -81,6 +75,14 @@
 .folder-form > button:hover {
   background-color: var(--accent-color);
   color: white;
+}
+
+.folder-item-remove {
+  height: 2rem;
+  aspect-ratio: 1 / 1;
+  fill: #ee5555;
+  justify-self: end;
+  align-self: center;
 }
 
 @media only screen and (min-width: 576px) {

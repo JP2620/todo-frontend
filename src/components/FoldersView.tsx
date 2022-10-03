@@ -1,6 +1,7 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React, { FormEvent, LegacyRef, useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import Icons from "../Icons";
 import FoldersService from "../services/FoldersService";
 import Folder from "../types/Folder";
 import { NewFolderDto } from "../types/NewFolderDto";
@@ -53,12 +54,10 @@ function FoldersView() {
               <Link to={"/folder/" + folder.name} className="folder-view-items">
                 View items
               </Link>
-              <p
+              <Icons.Trash 
                 className="folder-item-remove"
                 onClick={() => handleRemoveFolder(folder.id)}
-              >
-                Remove
-              </p>
+              />
             </li>
           ))}
         </ul>

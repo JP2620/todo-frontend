@@ -45,8 +45,25 @@
   font-size: 1.75em;
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
+}
+
+.tasks-header-breadcrumb {
+  margin: 0 0.75rem;
+  width: 2rem;
+  aspect-ratio: 1 / 1;
+}
+
+.previous-page-link {
+  position: absolute;
+  inset: 1.5rem auto auto 1.5rem ;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: lightgray;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.5rem;
 }
 
 .tasks-header > span {

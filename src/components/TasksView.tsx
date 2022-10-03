@@ -7,6 +7,7 @@ import { UserContext } from "../userContext";
 import TaskItem from "./TaskItem";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import "./TasksView.css";
+import Icons from "../Icons";
 
 const TasksView = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -48,16 +49,12 @@ const TasksView = () => {
       <div className="tasks-layout">
         <div>
           <Link to="/folders">
-            <a className="previous-page-link">
-              <span className="material-symbols-outlined">arrow_back</span>
-            </a>
+            <Icons.LeftArrow className="previous-page-link" />
           </Link>
         </div>
         <h1 className="tasks-header">
           {"Folders "}
-          <span className="material-symbols-outlined">
-            arrow_forward_ios
-          </span>{" "}
+          <Icons.Breadcrumb className='tasks-header-breadcrumb'/>
           {params.folder}
         </h1>
         <main className="tasks-main">
