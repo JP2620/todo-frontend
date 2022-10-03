@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Icons from '../Icons';
 import "./TaskItem.css";
 
 type TaskItemProps = {
@@ -44,7 +45,7 @@ const TaskItem = (props: TaskItemProps) => {
         onClick={handleClick}
       />
       <p className="task-name">{name}</p>
-      <p className="task-edit">Edit</p>
+      <Icons.Edit className="task-edit" />
     </li>
   );
 };

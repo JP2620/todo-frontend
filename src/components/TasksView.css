@@ -60,23 +60,6 @@
   overflow: auto;
 }
 
-.task-item {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.task-name {
-  width: 60%;
-  text-align: center;
-  overflow-wrap: break-word;
-}
-
-.task-item > input {
-  width: 1.125em;
-  aspect-ratio: 1 / 1;
-}
 
 @media only screen and (min-width: 576px) {
   .tasks-container {

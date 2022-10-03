@@ -1,14 +1,27 @@
-.task-item {
-  width: 90%;
-  font-size: 1.125rem;
-  font-weight: 400;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 1rem;
-  align-content: center;
-}
-
 .task-checkbox {
   accent-color: var(--accent-color);
+}
+
+.task-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-name {
+  width: 60%;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.task-item > input {
+  width: 1.5rem;
+  aspect-ratio: 1 / 1;
+}
+
+.task-edit {
+  height: 2rem;
+  aspect-ratio: 1 / 1;
 }
 
